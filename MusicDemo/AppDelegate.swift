@@ -11,26 +11,36 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-
+    var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let vc = ViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = nav
+        window?.makeKeyAndVisible()
+        
+        //注册喜马拉雅
+        XMReqMgr.sharedInstance().registerXMReqInfo(withKey: XMLYAPPKEY, appSecret: XMLYAPPSECRET)
+        XMReqMgr.sharedInstance().delegate = self
         return true
     }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    //程序终止的时候调用
+    func applicationWillTerminate(_ application: UIApplication) {
+        YHLog(message: "applicationWillTerminate")
+        XMReqMgr.sharedInstance().close()
     }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
-
-
 }
 
+
+extension AppDelegate: XMReqDelegate {
+    //初始化失败
+    func didXMInitReqOK(_ result: Bool) {
+        NotificationCenter.default.post(name: .name(XMLYStartFinishedNotification), object: nil)
+        print("初始化成功")
+    }
+    //初始化成功
+    func didXMInitReqFail(_ respModel: XMErrorModel!) {
+        print("初始化失败:\(String(describing: respModel.error_code)),\(String(describing: respModel.error_desc))")
+    }
+}
