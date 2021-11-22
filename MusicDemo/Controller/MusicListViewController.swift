@@ -1,52 +1,42 @@
 //
-//  AlbumViewController.swift
+//  MusicListViewController.swift
 //  MusicDemo
 //
-//  Created by Charron on 2021/11/21.
+//  Created by Charron on 2021/11/22.
 //
 
 import UIKit
 
-class AlbumViewController: BaseViewController {
-    //专辑列表
-    private var albumsDatas: [XMAlbum?]? = []
-    var tagName: String?
-    var categoryID: Int? {
+class MusicListViewController: BaseViewController {
+    //专辑下的声音列表
+    private var tracksDatas: [XMTrack?]? = []
+    var albumID: Int? {
         didSet {
-            var albumsParamas: [String:Any] = [:]
-            albumsParamas["category_id"] = categoryID
-            albumsParamas["tag_name"] = tagName
-            //1-热门推荐，2-最新，3-最多播放
-            albumsParamas["calc_dimension"] = 1
-            albumsParamas["page"] = 1
-            albumsParamas["count"] = 20
-            //是否为付费内容
-            albumsParamas["contains_paid"] = false
-            //MARK: 获取专辑列表
-            XMReqMgr.sharedInstance().requestXMData(.XMReqType_AlbumsList, params: albumsParamas) { result, error in
+            //MARK: 获取专辑下的声音列表
+            var voiceParams: [String:Int] = [:]
+            voiceParams["album_id"] = albumID
+            XMReqMgr.sharedInstance().requestXMData(.XMReqType_AlbumsBrowse, params: voiceParams) { result, error in
                 if let result = result as? [String:Any],
-                   let albums = result["albums"] as? [Any]{
-                    for value in albums {
+                   let tracks = result["tracks"] as? [Any] {
+                    for value in tracks {
                         if let value = value as? [String:Any] {
-                            let model = XMAlbum(dictionary: value)
-                            self.albumsDatas?.append(model)
+                            let model = XMTrack(dictionary: value)
+                            self.tracksDatas?.append(model)
+                            print("trackTitle = \(model?.trackTitle)")
+                            print("coverUrlLarge = \(model?.coverUrlLarge)")
                         }
                     }
+                    self.tableView.reloadData()
                 }
-                self.tableView.reloadData()
-                MBProgressHUD.hide(for: self.view, animated: true)
-//                print("albumsDatasCount = \(self.albumsDatas?.count)")
-                print("result = \(result)")
             }
         }
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        //配置返回按钮
         configBackBarItem()
         initUI()
-        MBProgressHUD.showAdded(to: view, animated: true)
     }
     //MARK: 初始化UI
     private func initUI() {
@@ -58,6 +48,8 @@ class AlbumViewController: BaseViewController {
             make.edges.equalTo(UIEdgeInsets(top: Status_And_Navigation_Height(), left: 0, bottom: 0, right: 0))
         }
     }
+    //MARK: 适配View
+
     //MARK: 懒记载
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -70,7 +62,7 @@ class AlbumViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(AlbumTableViewCell.self, forCellReuseIdentifier: "\(AlbumTableViewCell.self)")
+        tableView.register(MusicTableViewCell.self, forCellReuseIdentifier: "\(MusicTableViewCell.self)")
         
         if #available(iOS 11, *) {
             tableView.estimatedRowHeight = 0
@@ -82,26 +74,31 @@ class AlbumViewController: BaseViewController {
         }
         return tableView
     }()
+
 }
-extension AlbumViewController: UITableViewDelegate, UITableViewDataSource {
+extension MusicListViewController: UITableViewDelegate, UITableViewDataSource,SDKDownloadMgrDelegate {
     
     //MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let muscicListVC = MusicListViewController()
-        muscicListVC.albumID = albumsDatas?[indexPath.section]?.albumId
-        muscicListVC.title = albumsDatas?[indexPath.section]?.albumTitle
-        navigationController?.pushViewController(muscicListVC, animated: true)
+        var paramas: [String:Any] = [:]
+        paramas["track_id"] = tracksDatas?[indexPath.section]?.trackId
+        XMReqMgr.sharedInstance().requestXMData(withPath: "tracks/get_single", params: paramas) { result, error in
+            print("单个声音信息:\(result)")
+        }
+        let playVC = PlayViewController()
+        playVC.xmTrack = tracksDatas?[indexPath.section]
+        navigationController?.pushViewController(playVC, animated: true)
     }
     //MARK: UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        return albumsDatas?.count ?? 0
+        return tracksDatas?.count ?? 0
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "\(AlbumTableViewCell.self)", for: indexPath) as! AlbumTableViewCell
-        cell.model = albumsDatas?[indexPath.section]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(MusicTableViewCell.self)", for: indexPath) as! MusicTableViewCell
+        cell.model = tracksDatas?[indexPath.section]
         cell.selectionStyle = .none
         cell.backgroundColor = RGBColorHex(s: 0xf2f1f7)
         cell.layer.cornerRadius = 15

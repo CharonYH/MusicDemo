@@ -207,6 +207,9 @@
 		048A98B52748E47E00487AFB /* YHNetWorkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A98B32748E47E00487AFB /* YHNetWorkManager.swift */; };
 		048A98B62748E47E00487AFB /* YHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A98B42748E47E00487AFB /* YHError.swift */; };
 		048A98B92748E4A000487AFB /* DefineMacro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A98B82748E4A000487AFB /* DefineMacro.swift */; };
+		04DE138E274B2F51000ACC89 /* MusicListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE138D274B2F51000ACC89 /* MusicListViewController.swift */; };
+		04DE1390274B32D3000ACC89 /* MusicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE138F274B32D3000ACC89 /* MusicTableViewCell.swift */; };
+		04DE1392274B513E000ACC89 /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE1391274B513E000ACC89 /* PlayViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -533,6 +536,9 @@
 		048A98B32748E47E00487AFB /* YHNetWorkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YHNetWorkManager.swift; sourceTree = "<group>"; };
 		048A98B42748E47E00487AFB /* YHError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YHError.swift; sourceTree = "<group>"; };
 		048A98B82748E4A000487AFB /* DefineMacro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefineMacro.swift; sourceTree = "<group>"; };
+		04DE138D274B2F51000ACC89 /* MusicListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListViewController.swift; sourceTree = "<group>"; };
+		04DE138F274B32D3000ACC89 /* MusicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicTableViewCell.swift; sourceTree = "<group>"; };
+		04DE1391274B513E000ACC89 /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -686,10 +692,12 @@
 		045B23CC27493854003C93C8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				041D8D59274A7F2F00908433 /* BaseViewController.swift */,
 				048A97C02748E3A700487AFB /* ViewController.swift */,
 				045B26EC27494FEC003C93C8 /* MusicDetailViewController.swift */,
 				041D8D57274A7F1600908433 /* AlbumViewController.swift */,
-				041D8D59274A7F2F00908433 /* BaseViewController.swift */,
+				04DE138D274B2F51000ACC89 /* MusicListViewController.swift */,
+				04DE1391274B513E000ACC89 /* PlayViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -715,6 +723,7 @@
 				041D8D55274A7CA400908433 /* LableListTableViewCell.swift */,
 				041D8D5B274A982500908433 /* Test.xib */,
 				041D8D5D274A990C00908433 /* AlbumTableViewCell.swift */,
+				04DE138F274B32D3000ACC89 /* MusicTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1249,6 +1258,7 @@
 				045B26CB27494D15003C93C8 /* SDImageCache.m in Sources */,
 				048A986C2748E46B00487AFB /* ConstraintMakerPriortizable.swift in Sources */,
 				048A98652748E46B00487AFB /* EventMonitor.swift in Sources */,
+				04DE138E274B2F51000ACC89 /* MusicListViewController.swift in Sources */,
 				048A985E2748E46B00487AFB /* Notifications.swift in Sources */,
 				048A98472748E46B00487AFB /* RequestInterceptor.swift in Sources */,
 				045B26E127494D15003C93C8 /* UIColor+SDHexString.m in Sources */,
@@ -1301,7 +1311,9 @@
 				041D8D58274A7F1600908433 /* AlbumViewController.swift in Sources */,
 				048A98542748E46B00487AFB /* AFError.swift in Sources */,
 				045B26DC27494D15003C93C8 /* UIView+WebCacheOperation.m in Sources */,
+				04DE1392274B513E000ACC89 /* PlayViewController.swift in Sources */,
 				045B26E427494D15003C93C8 /* SDDeviceHelper.m in Sources */,
+				04DE1390274B32D3000ACC89 /* MusicTableViewCell.swift in Sources */,
 				048A985C2748E46B00487AFB /* RequestTaskMap.swift in Sources */,
 				048A98962748E46B00487AFB /* ExtendCustomModelType.swift in Sources */,
 				045B26DF27494D15003C93C8 /* UIButton+WebCache.m in Sources */,
@@ -1442,7 +1454,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1497,7 +1509,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1523,7 +1535,7 @@
 					"$(PROJECT_DIR)/MusicDemo/Libs/SDK",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.music.demo.MusicDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.music.MusicDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/MusicDemo/Commom/Swift-Bridge-Objective-C.h";
 				SWIFT_VERSION = 5.0;
@@ -1548,7 +1560,7 @@
 					"$(PROJECT_DIR)/MusicDemo/Libs/SDK",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.music.demo.MusicDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.music.MusicDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/MusicDemo/Commom/Swift-Bridge-Objective-C.h";
 				SWIFT_VERSION = 5.0;

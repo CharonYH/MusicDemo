@@ -30,6 +30,7 @@ class AlbumTableViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         imgView.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
             make.left.equalTo(15*RATIO_WIDHT750)

@@ -11,3 +11,4 @@
 #import "UIImageView+WebCache.h"
 #import "XMHotTrack.h"
 #import "MBProgressHUD.h"
+#import "XMSDKDownloadManager.h"

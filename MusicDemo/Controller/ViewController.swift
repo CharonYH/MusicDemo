@@ -7,38 +7,31 @@
 
 import UIKit
 
+
 class ViewController: UIViewController {
 
     private var categoryDatas: [XMCategory?]? = []
-    
-    //MARK: viewWillAppear
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(getXMLYCategory), name: .name(XMLYStartFinishedNotification), object: nil)
-    }
-    //MARK: denit
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .name(XMLYStartFinishedNotification), object: nil)
-    }
-    
+
     //MARK: getXMLYCategory(XMLY初始化成功后获取XMLY的分类)
-    @objc func getXMLYCategory() {
-        
+    private func getXMLYCategory() {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         DispatchQueue.global().async {
-            XMReqMgr.sharedInstance().requestXMData(.XMReqType_CategoriesList, params: nil) { result, error in
-                if let result = result as? [Any] {
-                    for value in result {
-                        if let value = value as? [String:Any] {
-                            let model = XMCategory(dictionary: value)
-                            self.categoryDatas?.append(model)
-                            self.tableView.reloadData()
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                            print("categoryId = \(String(describing: model?.categoryId))")
+            XMReqMgr.sharedInstance().registerXMReqInfo(withKey: XMLYAPPKEY, appSecret: XMLYAPPSECRET)
+            DispatchQueue.global().async {
+                XMReqMgr.sharedInstance().requestXMData(.XMReqType_CategoriesList, params: nil) { result, error in
+                    if let result = result as? [Any] {
+                        for value in result {
+                            if let value = value as? [String:Any] {
+                                let model = XMCategory(dictionary: value)
+                                self.categoryDatas?.append(model)
+                                self.tableView.reloadData()
+                                MBProgressHUD.hide(for: self.view, animated: true)
+                            }
                         }
+    //                    YHLog(message: "categoryDatasCount = \(String(describing: self.categoryDatas?.count))")
                     }
-//                    YHLog(message: "categoryDatasCount = \(String(describing: self.categoryDatas?.count))")
+    //                YHLog(message: "result = \(String(describing: result))")
                 }
-//                YHLog(message: "result = \(String(describing: result))")
             }
         }
     }
@@ -46,8 +39,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "音乐分类"
+        //设置代理
+        XMReqMgr.sharedInstance().delegate = self
+        //初始化UI
         initUI()
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+        //获取专辑列表
+        getXMLYCategory()
     }
     //MARK: initUI
     private func initUI() {
@@ -88,6 +85,16 @@ class ViewController: UIViewController {
         return tableView
     }()
 }
+extension ViewController: XMReqDelegate {
+    //初始化成功
+    func didXMInitReqOK(_ result: Bool) {
+        print("初始化成功")
+    }
+    //初始化失败
+    func didXMInitReqFail(_ respModel: XMErrorModel!) {
+        print("初始化失败:\(String(describing: respModel.error_code)),\(String(describing: respModel.error_desc))")
+    }
+}
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
@@ -110,7 +117,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "\(CategoryTableViewCell.self)", for: indexPath) as! CategoryTableViewCell
         cell.model = categoryDatas?[indexPath.section]
         cell.selectionStyle = .none
-        cell.backgroundColor = .secondarySystemBackground
+        cell.backgroundColor = RGBColorHex(s: 0xf2f1f7)
         cell.layer.cornerRadius = 15
         cell.layer.masksToBounds = true
         return cell

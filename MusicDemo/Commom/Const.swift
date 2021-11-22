@@ -6,12 +6,12 @@
 //
 
 //喜马拉雅
-let XMLYAPPKEY = "53dfb8147549b960b87f9094f8d9ca84"
-let XMLYAPPSECRET = "98bc7836b0ee70117ea8a6d8c870eeca"
+let XMLYAPPKEY = "fe569acd06f5409bda13fd585858d182"
+let XMLYAPPSECRET = "d30097d24ed7b52a772439f638f4640c"
 let XMLYAPPREDIRECTURI = "https://www.baidu.com/"
-let XMLYAPPPBUNDLEID = "com.music.demo.MusicDemo"
+let XMLYAPPPBUNDLEID = Bundle.main.bundleIdentifier!
 let XMLYAPPNAME = "MusicDemo"
-let XMLYSCHEME = "xmly53dfb8147549b960b87f9094f8d9ca84"
+let XMLYSCHEME = "xmlyfe569acd06f5409bda13fd585858d182"
 
 //通知名
 let XMLYStartFinishedNotification = "XMLYStartFinishedNotification"

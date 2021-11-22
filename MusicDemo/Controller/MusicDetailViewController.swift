@@ -7,7 +7,6 @@
 
 import UIKit
 class MusicDetailViewController: BaseViewController {
-    
     private var xMTagDatas: [XMTag?]? = []
     var categoryID: Int? {
         didSet {
@@ -98,9 +97,15 @@ extension MusicDetailViewController: UITableViewDelegate, UITableViewDataSource 
         let cell = tableView.dequeueReusableCell(withIdentifier: "\(LableListTableViewCell.self)", for: indexPath) as! LableListTableViewCell
         cell.textLabel?.text = xMTagDatas?[indexPath.section]?.tagName
         cell.selectionStyle = .none
-        cell.backgroundColor = .secondarySystemBackground
+        cell.backgroundColor = RGBColorHex(s: 0xf2f1f7)
         cell.layer.cornerRadius = 15
         cell.layer.masksToBounds = true
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 15
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
     }
 }
